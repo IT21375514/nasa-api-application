@@ -1,16 +1,21 @@
 import React, { useState, useEffect } from "react";
 import Form from 'react-bootstrap/Form';
+import Spinner from 'react-bootstrap/Spinner';
 
 const EarthImagery = () => {
   const [latitude, setLatitude] = useState("");
   const [longitude, setLongitude] = useState("");
-  const [date, setDate] = useState("");
+  const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
   const [dim, setDim] = useState(0.15);
   const [assetsData, setAssetsData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [showMessage, setShowMessage] = useState(true);
 
   const fetchAssetsData = async () => {
+    if (!latitude || !longitude) {
+      return;
+    }
     const NASA_KEY = "kX4mKqMQg1ege60ay2rFEKyvrWunTiBn3cHg1LwU";
     const assetsUrl = `https://api.nasa.gov/planetary/earth/assets?lon=${longitude}&lat=${latitude}&date=${date}&dim=${dim}&api_key=${NASA_KEY}`;
     const imageryUrl = `https://api.nasa.gov/planetary/earth/imagery?lon=${longitude}&lat=${latitude}&date=${date}&dim=${dim}&api_key=${NASA_KEY}`;
@@ -51,9 +56,15 @@ const EarthImagery = () => {
     const newValue = parseFloat(event.target.value);
     setDim(newValue);
     console.log("New value of dim:", newValue); 
-    fetchAssetsData(); // Fetch data whenever the dimension value changes
   };
   
+  useEffect(() => {
+    fetchAssetsData();
+  }, [dim]);
+  
+  useEffect(() => {
+    setShowMessage(!(latitude && longitude));
+  }, [latitude, longitude]);
 
   const handleFetchAPODs = () => {
     fetchAssetsData(); // Fetch data when the button is clicked
@@ -116,14 +127,30 @@ const EarthImagery = () => {
           </div>
         </div>
 
-        <div className="row">
-          <div className="col-md-6">
-            {assetsData && (
+        {showMessage && (
+          <div className="row mb-3">
+            <div className="col-md-12">
+              <p style={{textAlign: 'center'}}>Latitude and longitude must be provided.</p>
+            </div>
+          </div>
+        )}
+
+{assetsData && (
+          <div className="row">
+            <div className="col-md-6">
               <div>
-                <div className="ImgContainer" style={{ height: "100%", width: "100%", maxHeight: "600px", overflow: "hidden" }}>
-                  <img src={assetsData.imageURL} alt="earth-imagery" className="bgImage" style={{ objectFit: 'contain', width: '100%', height: '100%' }} />
+              <div className="ImgContainer" style={{ height: "100%", width: "100%", overflow: "hidden" }}>
+                  {loading ? (
+                      <div className='mb-3' style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
+                      <Spinner animation="border" role="status" style={{ width: '4rem', height: '4rem' }}>
+                        <span className="visually-hidden">Loading...</span>
+                      </Spinner>
+                    </div>
+                  ) : (
+                    <img src={assetsData.imageURL} alt="earth-imagery" className="bgImage" style={{ objectFit: 'contain', width: '100%', height: '100%' }} />
+                  )}
                 </div>
-                <div className="col-md-3 mt-3 mb-5">
+                <div className="mt-3 mb-5">
                   <label style={{ display: 'flex', alignItems: 'center' }}>
                     <span style={{ marginRight: '1em' }}>Dimension:</span>
                     <Form.Range 
@@ -138,28 +165,26 @@ const EarthImagery = () => {
                   </label>
                 </div>
               </div>
-            )}
-          </div>
+            </div>
 
-          <div className="col-md-6">
-            {loading && <p>Loading...</p>}
-            {error && <p>{error}</p>}
-            {assetsData && (
-              <div>
-                <h3>Retrieved Data</h3>
-                <p>Date: {assetsData.date}</p>
-                <p>ID: {assetsData.id}</p>
-                <p>Service Version: {assetsData.service_version}</p>
-                <p style={{overflowWrap: 'break-word'}}>
-                  <strong>URL:</strong>
-                  <a href={assetsData.url} target="_blank" rel="noopener noreferrer">
-                    {assetsData.url}
-                  </a>
-                </p>
-              </div>
-            )}
+            <div className="col-md-6">
+              {assetsData && (
+                <div>
+                  <h3>Retrieved Data</h3>
+                  <p>Date: {assetsData.date}</p>
+                  <p>ID: {assetsData.id}</p>
+                  <p>Service Version: {assetsData.service_version}</p>
+                  <p style={{overflowWrap: 'break-word'}}>
+                    <strong>URL:</strong>
+                    <a href={assetsData.url} target="_blank" rel="noopener noreferrer">
+                      {assetsData.url}
+                    </a>
+                  </p>
+                </div>
+              )}
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </section>
   );

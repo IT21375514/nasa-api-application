@@ -15,12 +15,6 @@ function App() {
         <About />
         <Apod />
         <EarthImagery />
-        <div className='row'>
-              <div className='col-md-6'   style={{ backgroundColor: '#435435',padding:'40px 40px'}}>
-                </div>
-                <div className='col-md-6'   style={{ backgroundColor: '#ffffff',padding:'40px 40px'}}>
-                </div>
-                </div>
         <Footer />
       </div>
     </div>
