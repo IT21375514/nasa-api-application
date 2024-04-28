@@ -299,7 +299,7 @@ export default function Apod() {
   };
 
   return (
-    <section id="main">
+    <section id="apod">
     <div className="container" style={{ maxWidth: '80%', margin: '2em auto 5em auto' }}>
       <div className="row mb-3" >
         <h1 className='mb-5' style={{ textAlign: 'center' }}>Astronomy Picture of the Day</h1>

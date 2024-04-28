@@ -90,7 +90,7 @@ function NavScrollExample({ fetchData }) {
           <Nav className="my-2 my-lg-0 sub-nav" navbarScroll>
             <Nav.Link href="#home" className={activeSection === 'home' ? 'active' : ''}>Home</Nav.Link>
             <Nav.Link href="#about" className={activeSection === 'about' ? 'active' : ''}>About</Nav.Link>
-            <Nav.Link href="#main" className={activeSection === 'main' ? 'active' : ''}>APOD</Nav.Link>
+            <Nav.Link href="#apod" className={activeSection === 'apod' ? 'active' : ''}>APOD</Nav.Link>
             <Nav.Link href="#earthimagery" className={activeSection === 'earthimagery' ? 'active' : ''}>NeoWs</Nav.Link>
           </Nav>
         </Navbar.Collapse>

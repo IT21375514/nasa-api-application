@@ -20,7 +20,7 @@ function BasicExample() {
                 Users can retrieve the daily image with associated information, optionally requesting concept tags for discoverability, 
                 enabling integration of space visuals into various applications and platforms.
                 </Card.Text>
-              <a className='btn btn-outline-light btn-lg' href='#!' role='button'style={{ marginTop:'20px'}}>
+              <a className='btn btn-outline-light btn-lg' href='#apod' role='button'style={{ marginTop:'20px'}}>
               Explore Now
                   </a>
               {/* <Button className='btn btn-outline-light'>Go somewhere</Button> */}
@@ -29,15 +29,15 @@ function BasicExample() {
         </div>
         <div className="col-md-6" style={{padding:'0 1em 4em 1em' }}> {/* Bootstrap column for second card */}
           <Card style={{ width: '100%' }}> {/* Set width of card to 100% */}
-            <Card.Img variant="top" src='img/mrp_thump.jpg' />
+            <Card.Img variant="top" src='img/earth_thump.jpg' />
             <Card.Body>
-              <Card.Title>Mars Rover Photos (MRP)</Card.Title>
-              <Card.Text>          
-                The Mars Rover Photos (MRP) API offers image data from NASA's Curiosity, Opportunity, and Spirit rovers on Mars. 
-                Queries by Martian sol or Earth date, filtering by camera type, allow access to 25 photos per call. 
-                Developers, educators, and scientists benefit from this resource for Martian research and education.
+              <Card.Title>Earth Imagery APIs (Earth)</Card.Title>
+              <Card.Text>           
+                Earth Imagery APIs (Earth) provide access to satellite imagery and metadata, including Landsat data from NASA and USGS. 
+                These APIs offer access to Landsat data applications and other NASA Earth Science Division APIs like GIBS and Google Earth Engine. 
+                Users can retrieve images by location and date, obtaining JSON data with asset URLs.
               </Card.Text>
-              <a className='btn btn-outline-light btn-lg' href='#!' role='button'style={{ marginTop:'20px'}}>
+              <a className='btn btn-outline-light btn-lg' href='#earthimagery' role='button'style={{ marginTop:'20px'}}>
               Explore Now
                   </a>
               {/* <Button className='btn btn-outline-light'>Go somewhere</Button> */}
