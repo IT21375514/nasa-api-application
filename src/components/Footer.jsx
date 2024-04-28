@@ -14,7 +14,7 @@ function Footer() {
             {/* Second column content */}
           </div>
           <div className="col-md-2">
-            <h6>Technologies</h6>
+            <h6><strong>Technologies</strong></h6>
           {/* First column content */}
             <div className="d-flex align-items-center">
               <img src="img/react.png" alt="Image 1" style={{ width: "16px", height: "16px" }} />

@@ -311,8 +311,9 @@ export default function Apod() {
         </div>
         <div className="col-md-6" style={{ textAlign: 'end' }}>
           <div style={{ marginBottom: '4em' }}>
-            <label htmlFor="startDateInput" style={{ marginRight: '1em' }} >Start Date:</label>
+            <label htmlFor="startDateInput" style={{ marginRight: '1em'}} >Start Date:</label>
             <input 
+              className="mb-1" 
               type="date" 
               id="startDateInput" 
               value={startDate} 
@@ -348,8 +349,8 @@ export default function Apod() {
             <div className="col-md-6">
               <div>
                 <h2>{data[0].title}</h2>
-                <p>Date: {data[0].date}</p>
-                <p>Explanation: {data[0].explanation}</p>
+                <p><strong>Date: </strong>{data[0].date}</p>
+                <p><strong>Explanation: </strong>{data[0].explanation}</p>
                 <p><strong>Media Type:</strong> {data[0].media_type}</p>
                 <p><strong>Service Version:</strong> {data[0].service_version}</p>
                 <p style={{ overflowWrap: 'break-word' }}><strong>URL:</strong>  <a href={data[0].url} target="_blank" rel="noopener noreferrer">{data[0].url}</a></p>
