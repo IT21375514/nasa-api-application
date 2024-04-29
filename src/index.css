@@ -74,6 +74,7 @@ body {
   margin: 0;
   /* display: flex; */
   color: #ffffff;
+  background-color: #04051e;
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
@@ -188,6 +189,7 @@ button {
 .btn {
   border-radius: 0!important;
   font-weight: 600;
+  background-color: #04051e;
 }
 p{
   overflow-wrap: break-word;
@@ -224,3 +226,72 @@ button.navbar-toggler.collapsed {
 /* Test */
 /* Test 2 */
 /* Test 3 */
+
+
+/* Login Page */
+#login .nav-item button{
+  color:#ffffff!important;
+  font-weight: bold;
+}
+
+#login .nav-link.active{
+  color:#04051e!important;
+  font-weight: bold;
+}
+
+#login .form-control {
+  background-color: transparent!important;
+  color: #ffffff!important;
+}
+
+#login input::placeholder {
+  color: #ffffff; /* Change placeholder color to gray */
+}
+
+.modal-content {
+  background-color: #000000;
+  padding: 2em 2em;
+}
+
+.modal-header {
+  text-align: center;
+  border-bottom: none;
+}
+
+.modal-footer {
+  text-align: center;
+  border-top: none;
+}
+
+.modal {
+  padding: 0;
+}
+
+.fade.modal.show {
+  align-content: center;
+}
+
+.modal-content {
+  width: auto;
+  margin: 0 2em;
+}
+
+/*Off Canvas*/
+.offcanvas{
+  color: #ffffff;
+}
+
+.offcanvas-header{
+  margin-top: 0.2em;
+  align-items: baseline;
+}
+
+.offcanvas-title{
+  width: 100%;
+  text-align: center;
+}
+
+.btn-close {
+  --bs-btn-close-bg: url('data:image/svg+xml,%3csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="%23fff"%3e%3cpath d="M.25 0A.25.25 0 0 1 .58.22L8 7.585 15.42.22a.25.25 0 0 1 .354.353L8.707 8l7.067 7.426a.25.25 0 0 1-.354.354L8 8.707l-7.07 7.073a.25.25 0 0 1-.354-.354L7.293 8 .22.58A.25.25 0 0 1 .25 0z" stroke-linecap="round" stroke-width="4" stroke="%23ffffff" /%3e%3c/svg%3e');
+}
+

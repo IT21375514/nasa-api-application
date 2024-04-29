@@ -5,18 +5,38 @@ import Home from "./components/Home";
 import About from "./components/About"
 import Apod from "./components/Apod";
 import EarthImagery from "./components/EarthImagery";
+import Login, { logout } from "./Login"; // Import the logout function
 
 function App() {
+  const [loggedIn, setLoggedIn] = useState(false);
+
+  const handleLogout = async () => {
+    try {
+      // Call the logout function directly
+      await logout(setLoggedIn);
+      setLoggedIn(false); // Update loggedIn state to false
+    } catch (error) {
+      console.error("Error logging out:", error);
+      // Handle any errors that occur during logout
+    }
+  };
+
   return (
     <div className="App">
-      <Navbar />
-      <div className="content" style={{ backgroundColor: "#04051e" }}>
-        <Home />
-        <About />
-        <Apod />
-        <EarthImagery />
-        <Footer />
-      </div>
+      {loggedIn ? (
+        <>
+          <Navbar handleLogout={handleLogout}/>
+          <div className="content" style={{ backgroundColor: "#04051e" }}>
+            <Home />
+            <About />
+            <Apod />
+            <EarthImagery />
+            <Footer />
+          </div>
+        </>
+      ) : (
+        <Login setLoggedIn={setLoggedIn} handleLogout={handleLogout}/>
+      )}
     </div>
   );
 }

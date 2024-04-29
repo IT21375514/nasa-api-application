@@ -235,11 +235,20 @@ const EarthImagery = () => {
       
       console.log("Fetching imagery data URL:", imageryUrl); 
       const imageryRes = await fetch(imageryUrl);
-      const imageryData = await imageryRes.blob();
-      const imageURL = URL.createObjectURL(imageryData);
+      // const imageryData = await imageryRes.blob();
+      // const imageURL = URL.createObjectURL(imageryData);
       
+      if (imageryRes.ok) {
+        const imageryData = await imageryRes.blob();
+        const imageURL = URL.createObjectURL(imageryData);
+        setAssetsData(prevData => ({ ...prevData, imageURL }));
+      } else {
+        // Handle 404 error by setting a default image
+        setAssetsData(prevData => ({ ...prevData, imageURL: process.env.PUBLIC_URL + '/img/no_img_found.jpg' }));
+      }
+
       setLoading(false);
-      setAssetsData(prevData => ({ ...prevData, imageURL }));
+      // setAssetsData(prevData => ({ ...prevData, imageURL }));
     } catch (err) {
       console.log(err.message);
       setError("Failed to fetch data");
