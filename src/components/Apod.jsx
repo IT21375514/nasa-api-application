@@ -256,8 +256,16 @@ import Carousel from 'react-bootstrap/Carousel';
 
 export default function Apod() {
   const [data, setData] = useState([]);
-  const [startDate, setStartDate] = useState(new Date().toISOString().split('T')[0]);
-  const [endDate, setEndDate] = useState(new Date().toISOString().split('T')[0]);
+  const [startDate, setStartDate] = useState(() => {
+    // Retrieve start date from localStorage or set to today's date
+    const storedStartDate = localStorage.getItem('startDate');
+    return storedStartDate ? storedStartDate : new Date().toISOString().split('T')[0];
+  });
+  const [endDate, setEndDate] = useState(() => {
+    // Retrieve end date from localStorage or set to today's date
+    const storedEndDate = localStorage.getItem('endDate');
+    return storedEndDate ? storedEndDate : new Date().toISOString().split('T')[0];
+  });
 
   const fetchData = async () => {
     const NASA_KEY = "kX4mKqMQg1ege60ay2rFEKyvrWunTiBn3cHg1LwU";
@@ -273,14 +281,21 @@ export default function Apod() {
     }
   };
 
+  // Function to handle changes in start date
   const handleStartDateChange = (event) => {
-    setStartDate(event.target.value);
+    const newStartDate = event.target.value;
+    setStartDate(newStartDate);
+    // Store new start date in localStorage
+    localStorage.setItem('startDate', newStartDate);
   };
 
+  // Function to handle changes in end date
   const handleEndDateChange = (event) => {
-    setEndDate(event.target.value);
+    const newEndDate = event.target.value;
+    setEndDate(newEndDate);
+    // Store new end date in localStorage
+    localStorage.setItem('endDate', newEndDate);
   };
-
   useEffect(() => {
     // Fetch data when component mounts and when start/end dates change
     fetchData();

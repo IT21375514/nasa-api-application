@@ -125,7 +125,7 @@
 // export default Login;
 
 
-import { useState } from "react";
+import React, { useState, useEffect } from 'react';
 import { Button, Container, Form, Modal, Spinner } from "react-bootstrap"; // Import Modal component
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
@@ -147,6 +147,15 @@ export const logout = async (setLoggedIn) => {
       console.log("Before User is still logged in:", currentUser);
     }
     console.log("log out");
+  // Remove authentication data from localStorage
+  localStorage.removeItem('authToken');
+  localStorage.removeItem('userInfo');
+  localStorage.removeItem('userData');
+  localStorage.removeItem('startDate');
+  localStorage.removeItem('endDate');
+  
+  // Set loggedIn state to false
+  setLoggedIn(false);
     await signOut(authInstance);
     // setLoggedIn(false); // Update loggedIn state to false
 
@@ -193,13 +202,19 @@ function Login({ setLoggedIn }) {
       return;
     }
     try {
-      setLoading(true); // Set loading to true
+      setLoading(true);
       const authInstance = getAuth();
-      await signInWithEmailAndPassword(authInstance, loginEmail, loginPassword);
-      setSuccessMessage("Login successful!"); // Set success message
-      setShowSuccessModal(true); // Show success modal
+      const userCredential = await signInWithEmailAndPassword(authInstance, loginEmail, loginPassword);
+      // After successful login, retrieve user data and store it in localStorage
+      const { user } = userCredential;
+      const authToken = await user.getIdToken();
+      const userInfo = { email: user.email, name: user.displayName };
+      localStorage.setItem('authToken', authToken);
+      localStorage.setItem('userInfo', JSON.stringify(userInfo));
+      setSuccessMessage("Login successful!");
+      setShowSuccessModal(true);
       setTimeout(() => {
-        setLoggedIn(true); // Set logged in after 5 seconds
+        setLoggedIn(true);
       }, 3000);
     } catch (error) {
       setLoading(false); // Set loading to false
@@ -207,6 +222,20 @@ function Login({ setLoggedIn }) {
       setShowErrorModal(true); // Show failure modal
     }
   };
+
+// Check authentication state upon loading the application
+useEffect(() => {
+  // Check if authentication data exists in localStorage
+  const authToken = localStorage.getItem('authToken');
+  const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+  
+  // If authentication data exists, set loggedIn state to true
+  if (authToken && userInfo) {
+    setLoggedIn(true);
+  }
+}, []);
+
+
 
   const handleSignup = async () => {
     if (!name || !signupEmail || !signupPassword) {
@@ -240,6 +269,9 @@ function Login({ setLoggedIn }) {
       // Update user profile (optional)
       await updateProfile(userCredential.user, { displayName: name });
   
+      localStorage.setItem('authToken', userCredential.accessToken);
+      localStorage.setItem('userInfo', JSON.stringify(userCredential.user));
+
       setSuccessMessage("Signup successful!"); // Set success message
       setShowSuccessModal(true); // Show success modal
       setTimeout(() => {

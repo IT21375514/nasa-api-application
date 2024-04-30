@@ -193,7 +193,7 @@
 // export default EarthImagery;
 
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { MapContainer, TileLayer, Marker, Popup, useMapEvents } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import Form from 'react-bootstrap/Form';
@@ -218,6 +218,75 @@ const EarthImagery = () => {
   const [showMessage, setShowMessage] = useState(true);
   const [mapCenter, setMapCenter] = useState([0, 0]);
   const [markers, setMarkers] = useState([]);
+  const mapRef = useRef(null);
+  const zoomLevel = 10; // Adjust the zoom level as needed
+  const [mapInitialized, setMapInitialized] = useState(false);
+
+  useEffect(() => {
+    // Check if user data exists in localStorage
+    const userData = JSON.parse(localStorage.getItem('userData'));
+  
+    if (userData) {
+      // If user data exists, use it to set the initial state
+      const { date: storedDate, latitude: storedLatitude, longitude: storedLongitude } = userData;
+      setDate(storedDate);
+      setLatitude(storedLatitude);
+      setLongitude(storedLongitude);
+      setMapCenter([storedLatitude, storedLongitude]);
+      setMarkers([{ position: [storedLatitude, storedLongitude] }]);
+      console.log(storedLatitude);
+      console.log(storedLongitude);
+      // mapRef.current.setView([parseFloat(storedLatitude), parseFloat(storedLongitude)], zoomLevel);
+      setMapInitialized(true); 
+
+    } else {
+      // If user data doesn't exist, fetch current location using Geolocation API
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude: currentLatitude, longitude: currentLongitude } = position.coords;
+          setLatitude(currentLatitude.toFixed(6));
+          setLongitude(currentLongitude.toFixed(6));
+          setMapCenter([currentLatitude, currentLongitude]);
+          setMarkers([{ position: [currentLatitude, currentLongitude] }]);
+          // mapRef.current.setView([parseFloat(currentLatitude), parseFloat(currentLongitude)], zoomLevel);
+          setMapInitialized(true); 
+        },
+        (error) => {
+          console.error('Error getting current location:', error.message);
+          // Handle error if Geolocation API fails
+        }
+      );
+    }
+  }, []);
+  
+
+  useEffect(() => {
+    // Call setView only when map is initialized and mapRef.current is not null
+    if (mapInitialized && mapRef.current) {
+      const userData = JSON.parse(localStorage.getItem('userData'));
+      if (userData) {
+        // If user data exists, use it to set the initial state
+        const { latitude: storedLatitude, longitude: storedLongitude } = userData;
+        mapRef.current.setView([parseFloat(storedLatitude), parseFloat(storedLongitude)], zoomLevel);
+      } else {
+        // If user data doesn't exist, fetch current location using Geolocation API
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const { latitude: currentLatitude, longitude: currentLongitude } = position.coords;
+            setLatitude(currentLatitude.toFixed(6));
+            setLongitude(currentLongitude.toFixed(6));
+            mapRef.current.setView([currentLatitude, currentLongitude], zoomLevel);
+          },
+          (error) => {
+            console.error('Error getting current location:', error.message);
+            // Handle error if Geolocation API fails
+          }
+        );
+      }
+    }
+  }, [mapInitialized]);
+  
+
 
   const fetchAssetsData = async () => {
     if (!latitude || !longitude) {
@@ -287,8 +356,17 @@ const EarthImagery = () => {
     if (!latitude || !longitude) {
       return;
     }
-    setMapCenter([parseFloat(latitude), parseFloat(longitude)]);
-    setMarkers([{ position: [parseFloat(latitude), parseFloat(longitude)] }]);
+// Store user data in localStorage
+localStorage.setItem('userData', JSON.stringify({ date, latitude, longitude }));
+
+// Set the map center and zoom level to the specified latitude and longitude
+
+setMapCenter([parseFloat(latitude), parseFloat(longitude)]);
+setMarkers([{ position: [parseFloat(latitude), parseFloat(longitude)] }]);
+
+// Pan and zoom the map to the specified location
+mapRef.current.setView([parseFloat(latitude), parseFloat(longitude)], zoomLevel);
+
     fetchAssetsData(); // Fetch data when the button is clicked
   };
 
@@ -331,7 +409,7 @@ const EarthImagery = () => {
         
         <div className="row mb-5">
           <div className="col-md-6 mb-3">
-            <MapContainer center={mapCenter} zoom={10} style={{ height: '400px', width: '100%' }}>
+            <MapContainer ref={mapRef} center={mapCenter} zoom={zoomLevel} style={{ height: '400px', width: '100%' }}>
               <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
               <Markers />
             </MapContainer>
