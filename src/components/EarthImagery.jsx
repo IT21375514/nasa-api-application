@@ -1,198 +1,3 @@
-// import React, { useState, useEffect } from "react";
-// import Form from 'react-bootstrap/Form';
-// import Spinner from 'react-bootstrap/Spinner';
-
-// const EarthImagery = () => {
-//   const [latitude, setLatitude] = useState("");
-//   const [longitude, setLongitude] = useState("");
-//   const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
-//   const [dim, setDim] = useState(0.15);
-//   const [assetsData, setAssetsData] = useState(null);
-//   const [loading, setLoading] = useState(false);
-//   const [error, setError] = useState(null);
-//   const [showMessage, setShowMessage] = useState(true);
-
-//   const fetchAssetsData = async () => {
-//     if (!latitude || !longitude) {
-//       return;
-//     }
-//     const NASA_KEY = "kX4mKqMQg1ege60ay2rFEKyvrWunTiBn3cHg1LwU";
-//     const assetsUrl = `https://api.nasa.gov/planetary/earth/assets?lon=${longitude}&lat=${latitude}&date=${date}&dim=${dim}&api_key=${NASA_KEY}`;
-//     const imageryUrl = `https://api.nasa.gov/planetary/earth/imagery?lon=${longitude}&lat=${latitude}&date=${date}&dim=${dim}&api_key=${NASA_KEY}`;
-
-//     try {
-//       setLoading(true);
-//       const assetsRes = await fetch(assetsUrl);
-//       const assetsData = await assetsRes.json();
-//       setAssetsData(assetsData);
-      
-//       console.log("Fetching imagery data URL:", imageryUrl); 
-//       const imageryRes = await fetch(imageryUrl);
-//       const imageryData = await imageryRes.blob();
-//       const imageURL = URL.createObjectURL(imageryData);
-      
-//       setLoading(false);
-//       setAssetsData(prevData => ({ ...prevData, imageURL }));
-//     } catch (err) {
-//       console.log(err.message);
-//       setError("Failed to fetch data");
-//       setLoading(false);
-//     }
-//   };
-
-//   const handleLatitudeChange = (event) => {
-//     setLatitude(event.target.value);
-//   };
-
-//   const handleLongitudeChange = (event) => {
-//     setLongitude(event.target.value);
-//   };
-
-//   const handleDateChange = (event) => {
-//     setDate(event.target.value);
-//   };
-
-//   const handleDimChange = (event) => {
-//     const newValue = parseFloat(event.target.value);
-//     setDim(newValue);
-//     console.log("New value of dim:", newValue); 
-//   };
-  
-//   useEffect(() => {
-//     fetchAssetsData();
-//   }, [dim]);
-  
-//   useEffect(() => {
-//     setShowMessage(!(latitude && longitude));
-//   }, [latitude, longitude]);
-
-//   const handleFetchAPODs = () => {
-//     fetchAssetsData(); // Fetch data when the button is clicked
-//   };
-
-//   return (
-//     <section id="earthimagery">
-//       <div className="container" style={{ maxWidth: '80%', margin: '2em auto 5em auto' }}>
-//         <div className="row mb-3" >
-//           <h1 className='mb-5' style={{ textAlign: 'center' }}>Earth Imagery</h1>
-//           <hr style={{ borderTop: '2px solid #ffffff' }} />
-//         </div>
-        
-//         <div className="row mb-5">
-//         <div className="col-md-6">
-//   <div className="row mb-3">
-//     <div className="col-md-4">
-//       <label htmlFor="latitudeInput">Latitude:</label>
-//     </div>
-//     <div className="col-md-8">
-//       <input
-//         type="text"
-//         id="latitudeInput"
-//         value={latitude}
-//         onChange={handleLatitudeChange}
-//         style={{ padding: '0.2em 1em', backgroundColor: 'transparent', border: '1px solid #fff', color: '#fff' }}
-//       />
-//     </div>
-//   </div>
-//   <div className="row mb-3">
-//     <div className="col-md-4">
-//       <label htmlFor="longitudeInput">Longitude:</label>
-//     </div>
-//     <div className="col-md-8">
-//       <input
-//         type="text"
-//         id="longitudeInput"
-//         value={longitude}
-//         onChange={handleLongitudeChange}
-//         style={{ padding: '0.2em 1em', backgroundColor: 'transparent', border: '1px solid #fff', color: '#fff' }}
-//       />
-//     </div>
-//   </div>
-// </div>
-
-//           <div className="col-md-4 mb-3"  style={{textAlign: "end"}}>
-//             <label>
-//               Date (YYYY-MM-DD):
-//               <input 
-//                 type="date" 
-//                 value={date} 
-//                 onChange={handleDateChange} 
-//                 max={new Date().toISOString().split('T')[0]} 
-//                 style={{ padding: '0.2em 1em', backgroundColor: 'transparent', border: '1px solid #fff', color: '#fff', marginLeft: '1em'  }} 
-//               />
-//             </label>
-//           </div>
-//           <div className="col-md-2 mb-3" style={{textAlign: "end"}}>
-//             <button className="api-button" onClick={handleFetchAPODs}>Fetch APODs</button> 
-//           </div>
-//         </div>
-
-//         {showMessage && (
-//           <div className="row mb-3">
-//             <div className="col-md-12">
-//               <p style={{textAlign: 'center'}}>Latitude and longitude must be provided.</p>
-//             </div>
-//           </div>
-//         )}
-
-// {assetsData && (
-//           <div className="row">
-//             <div className="col-md-6">
-//               <div>
-//               <div className="ImgContainer" style={{ height: "100%", width: "100%", overflow: "hidden" }}>
-//                   {loading ? (
-//                       <div className='mb-3' style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
-//                       <Spinner animation="border" role="status" style={{ width: '4rem', height: '4rem' }}>
-//                         <span className="visually-hidden">Loading...</span>
-//                       </Spinner>
-//                     </div>
-//                   ) : (
-//                     <img src={assetsData.imageURL} alt="earth-imagery" className="bgImage" style={{ objectFit: 'contain', width: '100%', height: '100%' }} />
-//                   )}
-//                 </div>
-//                 <div className="mt-3 mb-5">
-//                   <label style={{ display: 'flex', alignItems: 'center' }}>
-//                     <span style={{ marginRight: '1em' }}>Dimension:</span>
-//                     <Form.Range 
-//                       value={dim} 
-//                       onChange={handleDimChange} 
-//                       min={0.001} 
-//                       max={1} 
-//                       step={0.001} 
-//                       style={{ flex: '1', padding: '0.2em 1em', backgroundColor: 'transparent', color: '#fff', width: '20em'}} 
-//                     />
-//                     <span>{dim}</span>
-//                   </label>
-//                 </div>
-//               </div>
-//             </div>
-
-//             <div className="col-md-6">
-//               {assetsData && (
-//                 <div>
-//                   <h3>Retrieved Data</h3>
-//                   <p>Date: {assetsData.date}</p>
-//                   <p>ID: {assetsData.id}</p>
-//                   <p>Service Version: {assetsData.service_version}</p>
-//                   <p style={{overflowWrap: 'break-word'}}>
-//                     <strong>URL:</strong>
-//                     <a href={assetsData.url} target="_blank" rel="noopener noreferrer">
-//                       {assetsData.url}
-//                     </a>
-//                   </p>
-//                 </div>
-//               )}
-//             </div>
-//           </div>
-//         )}
-//       </div>
-//     </section>
-//   );
-// };
-
-// export default EarthImagery;
-
-
 import React, { useState, useEffect, useRef } from "react";
 import { MapContainer, TileLayer, Marker, Popup, useMapEvents } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -201,7 +6,7 @@ import Spinner from 'react-bootstrap/Spinner';
 import L from 'leaflet'; 
 
 const customMarkerIcon = L.icon({
-  iconUrl: 'img/pin.png', // Path to your custom marker image
+  iconUrl: 'img/pin.png', 
   iconSize: [38, 38], // Size of the icon
   iconAnchor: [19, 38], // Point of the icon which will correspond to marker's location
   popupAnchor: [0, -38] // Point from which the popup should open relative to the iconAnchor
@@ -401,24 +206,24 @@ mapRef.current.setView([parseFloat(latitude), parseFloat(longitude)], zoomLevel)
 
   return (
     <section id="earthimagery">
-      <div className="container" style={{ maxWidth: '80%', margin: '2em auto 5em auto' }}>
-        <div className="row mb-3" >
-          <h1 className='mb-5' style={{ textAlign: 'center' }}>Earth Imagery</h1>
-          <hr style={{ borderTop: '2px solid #ffffff' }} />
+      <div className="container">
+        <div id="earthimagery-row-1" className="row mb-3" >
+          <h1 className='mb-5'>Earth Imagery</h1>
+          <hr />
         </div>
         
-        <div className="row mb-5">
+        <div id="earthimagery-row-2" className="row mb-5">
           <div className="col-md-6 mb-3">
-            <MapContainer ref={mapRef} center={mapCenter} zoom={zoomLevel} style={{ height: '400px', width: '100%' }}>
+            <MapContainer ref={mapRef} center={mapCenter} zoom={zoomLevel}>
               <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
               <Markers />
             </MapContainer>
           </div>
 
           <div className="col-md-6">
-  <div className="row mb-3">
+  <div className="row mb-3 earthimagery-row-2-in-rows">
     <div className="col-md-6 mb-1">
-      <label htmlFor="latitudeInput" style={{ color: '#fff' }}>Latitude:</label>
+      <label htmlFor="latitudeInput">Latitude:</label>
     </div>
     <div className="col-md-6">
       <input
@@ -426,13 +231,12 @@ mapRef.current.setView([parseFloat(latitude), parseFloat(longitude)], zoomLevel)
         id="latitudeInput"
         value={latitude}
         onChange={handleLatitudeChange}
-        style={{ padding: '0.2em 1em', backgroundColor: 'transparent', border: '1px solid #fff', color: '#fff', width: '100%' }}
       />
     </div>
   </div>
-  <div className="row mb-3">
+  <div className="row mb-3 earthimagery-row-2-in-rows">
     <div className="col-md-6 mb-1">
-      <label htmlFor="longitudeInput" style={{ color: '#fff' }}>Longitude:</label>
+      <label htmlFor="longitudeInput">Longitude:</label>
     </div>
     <div className="col-md-6">
       <input
@@ -440,13 +244,12 @@ mapRef.current.setView([parseFloat(latitude), parseFloat(longitude)], zoomLevel)
         id="longitudeInput"
         value={longitude}
         onChange={handleLongitudeChange}
-        style={{ padding: '0.2em 1em', backgroundColor: 'transparent', border: '1px solid #fff', color: '#fff', width: '100%' }}
       />
     </div>
   </div>
-  <div className="row mb-3">
+  <div className="row mb-3 earthimagery-row-2-in-rows">
     <div className="col-md-6 mb-1">
-      <label htmlFor="dateInput" style={{ color: '#fff' }}>Date (YYYY-MM-DD):</label>
+      <label htmlFor="dateInput">Date:</label>
     </div>
     <div className="col-md-6">
       <input 
@@ -455,13 +258,12 @@ mapRef.current.setView([parseFloat(latitude), parseFloat(longitude)], zoomLevel)
         value={date} 
         onChange={handleDateChange} 
         max={new Date().toISOString().split('T')[0]} 
-        style={{ padding: '0.2em 1em', backgroundColor: 'transparent', border: '1px solid #fff', color: '#fff', width: '100%' }} 
       />
     </div>
   </div>
 
 
-            <div className="row mb-3"   style={{ textAlign: 'end'}}>
+            <div className="row mb-3" id="earthimagery-row-2-in-rows-button" >
               <div className="col-md-12">
                 <button className="api-button" onClick={handleFetchAPODs}>Fetch APODs</button> 
               </div>
@@ -470,38 +272,37 @@ mapRef.current.setView([parseFloat(latitude), parseFloat(longitude)], zoomLevel)
         </div>
 
         {showMessage && (
-          <div className="row mb-3">
+          <div id="earthimagery-row-results-yet" className="row mb-3">
             <div className="col-md-12">
-              <p style={{textAlign: 'center'}}>Latitude and longitude must be provided.</p>
+              <p>Latitude and longitude must be provided.</p>
             </div>
           </div>
         )}
 
         {assetsData && (
-          <div className="row">
+          <div id="earthimagery-row-results" className="row">
             <div className="col-md-6">
               <div>
-                <div className="ImgContainer" style={{ height: "100%", width: "100%", overflow: "hidden" }}>
+                <div className="ImgContainer">
                   {loading ? (
-                    <div className='mb-3' style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
-                      <Spinner animation="border" role="status" style={{ width: '4rem', height: '4rem' }}>
+                    <div id="earthimagery-row-results-loading" className='mb-3'>
+                      <Spinner animation="border" role="status">
                         <span className="visually-hidden">Loading...</span>
                       </Spinner>
                     </div>
                   ) : (
-                    <img src={assetsData.imageURL} alt="earth-imagery" className="bgImage" style={{ objectFit: 'contain', width: '100%', height: '100%' }} />
+                    <img src={assetsData.imageURL} alt="earth-imagery" className="bgImage" />
                   )}
                 </div>
-                <div className="mt-3 mb-5">
-                  <label style={{ display: 'flex', alignItems: 'center' }}>
-                    <span style={{ marginRight: '1em' }}>Dimension:</span>
+                <div id="earthimagery-row-results-zoom-level" className="mt-3 mb-5">
+                  <label>
+                    <span>Dimension:</span>
                     <Form.Range 
                       value={dim} 
                       onChange={handleDimChange} 
                       min={0.001} 
                       max={1} 
                       step={0.001} 
-                      style={{ flex: '1', padding: '0.2em 1em', backgroundColor: 'transparent', color: '#fff', width: '20em'}} 
                     />
                     <span>{dim}</span>
                   </label>
@@ -519,7 +320,7 @@ mapRef.current.setView([parseFloat(latitude), parseFloat(longitude)], zoomLevel)
                   <p><strong>Start Date of 30-day Range: </strong>{assetsData.date}</p>
                   <p><strong>ID: </strong>{assetsData.id}</p>
                   <p><strong>Service Version: </strong>{assetsData.service_version}</p>
-                  <p style={{overflowWrap: 'break-word'}}>
+                  <p id="earthimagery-row-results-url">
                     <strong>URL:</strong>
                     <a href={assetsData.url} target="_blank" rel="noopener noreferrer">
                       {assetsData.url}

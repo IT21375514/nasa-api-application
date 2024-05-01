@@ -1,130 +1,3 @@
-// import { useState } from "react";
-// import { Button, Container, Form, Modal } from "react-bootstrap";
-// import Tab from 'react-bootstrap/Tab';
-// import Tabs from 'react-bootstrap/Tabs';
-// import { auth } from "./firebase"; // Import Firebase authentication
-// import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from "firebase/auth";
-// import { getDatabase, ref, set } from "firebase/database";
-
-// const db = getDatabase(); // Get a reference to the database
-
-
-// function Login({ setLoggedIn }) {
-
-//   const [loginEmail, setLoginEmail] = useState("");
-//   const [loginPassword, setLoginPassword] = useState("");
-
-//   const [name, setName] = useState("");
-//   const [signupEmail, setSignupEmail] = useState("");
-//   const [signupPassword, setSignupPassword] = useState("");
-
-  
-//   const handleLogin = async () => {
-//     try {
-//       const authInstance = getAuth();
-//       await signInWithEmailAndPassword(authInstance, loginEmail, loginPassword);
-//       setLoggedIn(true);
-//     } catch (error) {
-//       alert(error.message); // Display login error
-//     }
-//   };
-  
-
-//   const handleSignup = async () => {
-//     try {
-//       const authInstance = getAuth();
-//       const userCredential = await createUserWithEmailAndPassword(
-//         authInstance,
-//         signupEmail,
-//         signupPassword
-//       );
-  
-//       // Get user ID
-//       const userId = userCredential.user.uid;
-  
-//       // Construct user data object
-//       const userData = {
-//         email: signupEmail,
-//         name: name,
-//         userType: "user" // Assuming the default user type is "user"
-//       };
-  
-//       // Store user data in the Realtime Database
-//       await set(ref(db, `users/${userId}`), userData);
-  
-//       // Update user profile (optional)
-//       await updateProfile(userCredential.user, { displayName: name });
-  
-//       setLoggedIn(true);
-//     } catch (error) {
-//       alert(error.message); // Display signup error
-//     }
-//   };
-
-//   return (
-//     <Container id="login" className="d-flex align-items-center justify-content-center" style={{ padding:"3em 0", minHeight: "100vh", background: `url('img/bg.gif')`, backgroundSize: "cover",maxWidth:'100%' }}>
-//       <div style={{ maxWidth: "400px", width: "80%" }}>
-//         <div className="text-center mb-4">
-//           <img src='img/bg-logo.png'  alt="Logo" height="80" />
-//         </div>
-//         <div className="ImgContainer mb-5" style={{ height: "100%", width: "100%", maxHeight: "600px", overflow: "hidden" }}>
-//           <img src='img/astrodiscover-logo-text.png' alt="mar-demo-pic" className="bgImage" style={{ objectFit: 'contain', width: '100%', height: '100%' }} />
-//         </div>
-//         <Tabs
-//             defaultActiveKey="home"
-//             id="uncontrolled-tab-example"
-//             className="mb-3"
-//             style={{ justifyContent: "center" }}
-//         >
-//             <Tab eventKey="home" title="Login">
-//               <Form>
-//                 <Form.Group className="mb-3" controlId="formBasicUsername">
-//                   <Form.Label>Username</Form.Label>
-//                   <Form.Control type="text" placeholder="Enter username" value={loginEmail} onChange={(e) => setLoginEmail(e.target.value)} />
-//                 </Form.Group>
-
-//                 <Form.Group className="mb-3" controlId="formBasicPassword">
-//                   <Form.Label>Password</Form.Label>
-//                   <Form.Control type="password" placeholder="Password" value={loginPassword} onChange={(e) => setLoginPassword(e.target.value)} />
-//                 </Form.Group>
-//                 <div className="mt-5 col-md-12 d-flex justify-content-center">
-//                   <Button className="btn btn-outline-light btn-lg" type="button" onClick={handleLogin}>
-//                     Login
-//                   </Button>
-//                 </div>
-//               </Form>
-//             </Tab>
-
-//             <Tab eventKey="profile" title="Signup">
-//               <Form>
-//                 <Form.Group className="mb-3" controlId="formBasicUsername">
-//                   <Form.Label>Name</Form.Label>
-//                   <Form.Control type="text" placeholder="Enter name" value={name} onChange={(e) => setName(e.target.value)} />
-//                 </Form.Group>
-//                 <Form.Group className="mb-3" controlId="formBasicUsername">
-//                   <Form.Label>Email</Form.Label>
-//                   <Form.Control type="text" placeholder="Enter email" value={signupEmail} onChange={(e) => setSignupEmail(e.target.value)} />
-//                 </Form.Group>
-//                 <Form.Group className="mb-3" controlId="formBasicPassword">
-//                   <Form.Label>Password</Form.Label>
-//                   <Form.Control type="password" placeholder="Password" value={signupPassword} onChange={(e) => setSignupPassword(e.target.value)} />
-//                 </Form.Group>
-//                 <div className="mt-5 col-md-12 d-flex justify-content-center">
-//                   <Button className="btn btn-outline-light btn-lg" type="button" onClick={handleSignup}>
-//                     Signup
-//                   </Button>
-//                 </div>
-//               </Form>
-//             </Tab>
-//         </Tabs>
-//       </div>
-//     </Container>
-//   );
-// }
-
-// export default Login;
-
-
 import React, { useState, useEffect } from 'react';
 import { Button, Container, Form, Modal, Spinner } from "react-bootstrap"; // Import Modal component
 import Tab from 'react-bootstrap/Tab';
@@ -289,24 +162,23 @@ useEffect(() => {
   };
 
   return (
-    <Container id="login" className="d-flex align-items-center justify-content-center" style={{ padding:"3em 0", minHeight: "100vh", background: `url('img/bg.gif')`, backgroundSize: "cover",maxWidth:'100%' }}>
-      <div style={{ maxWidth: "400px", width: "80%" }}>
+    <Container id="login" className="d-flex align-items-center justify-content-center">
+      <div id="login-div">
         <div className="text-center mb-4">
           <img src='img/bg-logo.png'  alt="Logo" height="80" />
         </div>
-        <div className="ImgContainer mb-5" style={{ height: "100%", width: "100%", maxHeight: "600px", overflow: "hidden" }}>
-          <img src='img/astrodiscover-logo-text.png' alt="mar-demo-pic" className="bgImage" style={{ objectFit: 'contain', width: '100%', height: '100%' }} />
+        <div className="ImgContainer mb-5">
+          <img src='img/astrodiscover-logo-text.png' alt="mar-demo-pic" className="bgImage" />
         </div>
         <Tabs
             defaultActiveKey="home"
             id="uncontrolled-tab-example"
             className="mb-3"
-            style={{ justifyContent: "center" }}
         >
             <Tab eventKey="home" title="Login">
               <Form>
                 <Form.Group className="mb-3" controlId="formBasicUsername">
-                  <Form.Label>Username</Form.Label>
+                  <Form.Label>Email</Form.Label>
                   <Form.Control type="text" placeholder="Enter username" value={loginEmail} onChange={(e) => setLoginEmail(e.target.value)} />
                 </Form.Group>
 
@@ -374,147 +246,3 @@ useEffect(() => {
 }
 
 export default Login;
-
-
-
-// import { useState } from "react";
-// import { Button, Container, Form, Modal } from "react-bootstrap"; // Import Modal component
-// import Tab from 'react-bootstrap/Tab';
-// import Tabs from 'react-bootstrap/Tabs';
-// import { auth } from "./firebase"; // Import Firebase authentication
-// import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from "firebase/auth";
-// import { getDatabase, ref, set } from "firebase/database";
-
-// const db = getDatabase(); // Get a reference to the database
-
-// function Login({ setLoggedIn }) {
-//   const [loginUsername, setLoginUsername] = useState("");
-//   const [signupUsername, setSignupUsername] = useState("");
-//   const [loginEmail, setLoginEmail] = useState("");
-//   const [loginPassword, setLoginPassword] = useState("");
-//   const [name, setName] = useState("");
-//   const [signupEmail, setSignupEmail] = useState("");
-//   const [signupPassword, setSignupPassword] = useState("");
-//   const [showSuccessModal, setShowSuccessModal] = useState(false); // State for showing success modal
-//   const [successMessage, setSuccessMessage] = useState(""); // State for success message
-
-//   const handleClose = () => {
-//     setShowSuccessModal(false); // Close the modal
-//     setLoggedIn(true); // Set logged in
-//   };
-
-//   const handleLogin = async () => {
-//     try {
-//       const authInstance = getAuth();
-//       await signInWithEmailAndPassword(authInstance, loginEmail, loginPassword);
-//       setSuccessMessage("Login successful!"); // Set success message
-//       setShowSuccessModal(true); // Show success modal
-//     } catch (error) {
-//       alert(error.message); // Display login error
-//     }
-//   };
-
-//   const handleSignup = async () => {
-//     try {
-//       const authInstance = getAuth();
-//       const userCredential = await createUserWithEmailAndPassword(
-//         authInstance,
-//         signupEmail,
-//         signupPassword
-//       );
-  
-//       // Get user ID
-//       const userId = userCredential.user.uid;
-  
-//       // Construct user data object
-//       const userData = {
-//         email: signupEmail,
-//         name: name,
-//         userType: "user" // Assuming the default user type is "user"
-//       };
-  
-//       // Store user data in the Realtime Database
-//       await set(ref(db, `users/${userId}`), userData);
-  
-//       // Update user profile (optional)
-//       await updateProfile(userCredential.user, { displayName: name });
-  
-//       setSuccessMessage("Signup successful!"); // Set success message
-//       setShowSuccessModal(true); // Show success modal
-//     } catch (error) {
-//       alert(error.message); // Display signup error
-//     }
-//   };
-
-//   return (
-//     <Container id="login" className="d-flex align-items-center justify-content-center" style={{ padding:"3em 0", minHeight: "100vh", background: `url('img/bg.gif')`, backgroundSize: "cover",maxWidth:'100%' }}>
-//       <div style={{ maxWidth: "400px", width: "80%" }}>
-//         <div className="text-center mb-4">
-//           <img src='img/bg-logo.png'  alt="Logo" height="80" />
-//         </div>
-//         <div className="ImgContainer mb-5" style={{ height: "100%", width: "100%", maxHeight: "600px", overflow: "hidden" }}>
-//           <img src='img/astrodiscover-logo-text.png' alt="mar-demo-pic" className="bgImage" style={{ objectFit: 'contain', width: '100%', height: '100%' }} />
-//         </div>
-//         <Tabs
-//             defaultActiveKey="home"
-//             id="uncontrolled-tab-example"
-//             className="mb-3"
-//             style={{ justifyContent: "center" }}
-//         >
-//             <Tab eventKey="home" title="Login">
-//               <Form>
-//                 <Form.Group className="mb-3" controlId="formBasicUsername">
-//                   <Form.Label>Username</Form.Label>
-//                   <Form.Control type="text" placeholder="Enter username" value={loginEmail} onChange={(e) => setLoginEmail(e.target.value)} />
-//                 </Form.Group>
-
-//                 <Form.Group className="mb-3" controlId="formBasicPassword">
-//                   <Form.Label>Password</Form.Label>
-//                   <Form.Control type="password" placeholder="Password" value={loginPassword} onChange={(e) => setLoginPassword(e.target.value)} />
-//                 </Form.Group>
-//                 <div className="mt-5 col-md-12 d-flex justify-content-center">
-//                   <Button className="btn btn-outline-light btn-lg" type="button" onClick={handleLogin}>
-//                     Login
-//                   </Button>
-//                 </div>
-//               </Form>
-//             </Tab>
-
-//             <Tab eventKey="profile" title="Signup">
-//               <Form>
-//                 <Form.Group className="mb-3" controlId="formBasicUsername">
-//                   <Form.Label>Name</Form.Label>
-//                   <Form.Control type="text" placeholder="Enter name" value={name} onChange={(e) => setName(e.target.value)} />
-//                 </Form.Group>
-//                 <Form.Group className="mb-3" controlId="formBasicUsername">
-//                   <Form.Label>Email</Form.Label>
-//                   <Form.Control type="text" placeholder="Enter email" value={signupEmail} onChange={(e) => setSignupEmail(e.target.value)} />
-//                 </Form.Group>
-//                 <Form.Group className="mb-3" controlId="formBasicPassword">
-//                   <Form.Label>Password</Form.Label>
-//                   <Form.Control type="password" placeholder="Password" value={signupPassword} onChange={(e) => setSignupPassword(e.target.value)} />
-//                 </Form.Group>
-//                 <div className="mt-5 col-md-12 d-flex justify-content-center">
-//                   <Button className="btn btn-outline-light btn-lg" type="button" onClick={handleSignup}>
-//                     Signup
-//                   </Button>
-//                 </div>
-//               </Form>
-//             </Tab>
-//         </Tabs>
-//       </div>
-//       {/* Success Modal */}
-//       <Modal show={showSuccessModal} onHide={handleClose}> {/* Update onHide to handleClose */}
-//         <Modal.Header closeButton>
-//           <Modal.Title>Success</Modal.Title>
-//         </Modal.Header>
-//         <Modal.Body>{successMessage}</Modal.Body>
-//         <Modal.Footer>
-//           <Button variant="secondary" onClick={handleClose}>Close</Button> {/* Close button */}
-//         </Modal.Footer>
-//       </Modal>
-//     </Container>
-//   );
-// }
-
-// export default Login;

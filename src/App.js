@@ -5,7 +5,7 @@ import Home from "./components/Home";
 import About from "./components/About"
 import Apod from "./components/Apod";
 import EarthImagery from "./components/EarthImagery";
-import Login, { logout } from "./Login"; // Import the logout function
+import Login, { logout } from "./Login";
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -26,7 +26,7 @@ function App() {
       {loggedIn ? (
         <>
           <Navbar handleLogout={handleLogout}/>
-          <div className="content" style={{ backgroundColor: "#04051e" }}>
+          <div className="content">
             <Home />
             <About />
             <Apod />
