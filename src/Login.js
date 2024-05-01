@@ -154,6 +154,8 @@ useEffect(() => {
       setLoading(false); // Set loading to false
       if (error.code === "auth/email-already-in-use") {
         setErrorMessage("Email is already registered."); // Set error message
+      } else if (error.code === "auth/weak-password") {
+        setErrorMessage("Password must be at least 6 characters long."); // Set error message for weak password
       } else {
         setErrorMessage("Signup failed. Please try again."); // Set error message
       }
@@ -179,7 +181,7 @@ useEffect(() => {
               <Form>
                 <Form.Group className="mb-3" controlId="formBasicUsername">
                   <Form.Label>Email</Form.Label>
-                  <Form.Control type="text" placeholder="Enter username" value={loginEmail} onChange={(e) => setLoginEmail(e.target.value)} />
+                  <Form.Control type="text" placeholder="Enter email" value={loginEmail} onChange={(e) => setLoginEmail(e.target.value)} />
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="formBasicPassword">
@@ -206,7 +208,7 @@ useEffect(() => {
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="formBasicPassword">
                   <Form.Label>Password</Form.Label>
-                  <Form.Control type="password" placeholder="Password" value={signupPassword} onChange={(e) => setSignupPassword(e.target.value)} />
+                  <Form.Control type="password" placeholder="Password (Minimum 6 characters)"  value={signupPassword} onChange={(e) => setSignupPassword(e.target.value)} />
                 </Form.Group>
                 <div className="mt-5 col-md-12 d-flex justify-content-center">
                   <Button className="btn btn-outline-light btn-lg" type="button" onClick={handleSignup}>
