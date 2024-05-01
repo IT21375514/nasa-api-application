@@ -2,6 +2,12 @@
 
 Astro Discover is a Node.js project built using React and Bootstrap for front-end development. Firebase is utilized for authentication and database management. The application leverages React Leaflet and the Leaflet library to render interactive maps. Additionally, React Slick is integrated for carousel functionality. The project focuses on providing users with an intuitive interface to access and explore astronomy-related information and imagery obtained from NASA APIs.
 
+## Web Site:
+[AstroDiscover](https://astrodiscover.netlify.app/) 
+
+## Application Documentation:
+[Application Documentation 
+](https://docs.google.com/document/d/1VVenoOHgA2-aBCFpD4X7xVCdMVySGu2L_XaxIhmZjFk/edit?usp=drive_link)
 ## Setup Instructions
 
 Clone the repository to your local machine:
@@ -50,4 +56,6 @@ Refer to the project's documentation for more detailed information on how to use
 Imports
 
 Ensure the imports are included in your project's source files
+
+![astrodiscover netlify](https://github.com/IT21375514/nasa-api-application/assets/100858959/33d3fcc1-a664-48d1-a230-27e75c78c5d0)
 
